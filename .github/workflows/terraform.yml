@@ -57,6 +57,14 @@ jobs:
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
 
+      - name: Install Docker
+        run: |
+          sudo apt update
+          sudo apt install docker.io -y
+          sudo systemctl enable docker --now
+          docker --version
+
+
       - name: Build & Push Docker image
         run: |
           COMMIT_SHA=${{ github.sha }}
