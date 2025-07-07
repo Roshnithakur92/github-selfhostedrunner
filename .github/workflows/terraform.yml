@@ -1,4 +1,4 @@
-name: Terraform on GCP
+name: Terraform and kubernetes on GCP
 
 on:
   push:
