@@ -8,7 +8,7 @@ on:
 jobs:
   terraform:
     name: Terraform on GCP
-    runs-on: [self-hosted, roshani-Tk]
+    runs-on: [self-hosted, gcp-runner]
 
 
     env:
