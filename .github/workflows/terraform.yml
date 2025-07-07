@@ -48,3 +48,25 @@ jobs:
       - name: Terraform Plan
         run: terraform plan 
         working-directory: gcp-terraform  
+
+      - name: Get GKE credentials
+        run: |
+          gcloud container clusters get-credentials elk-cluster --region asia-southeast1 --project $PROJECT_ID
+
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      - name: Build & Push Docker image
+        run: |
+          COMMIT_SHA=${{ github.sha }}
+          docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/roshani-test/demo-app2:$COMMIT_SHA ./k8s
+          docker push us-central1-docker.pkg.dev/$PROJECT_ID/roshani-test/demo-app2:$COMMIT_SHA
+
+      - name: Update deployment image with commit SHA
+        run: |
+         sed -i "s|COMMIT_SHA|$GITHUB_SHA|g" ./k8s/deployment.yaml
+
+      - name: Deploy to GKE
+        run: |
+          kubectl apply -f ./k8s/deployment.yaml --validate=false
