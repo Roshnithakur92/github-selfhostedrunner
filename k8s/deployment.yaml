@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-app2
+  labels:
+    app: demo-app2
+spec:
+  type: LoadBalancer
+  selector:
+    app: demo-app2
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: high
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app2
+  labels:
+    app: demo-app2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-app2
+  template:
+    metadata:
+      labels:
+        app: demo-app2
+    spec:
+      containers:
+        - name: demo-app2
+          image: us-central1-docker.pkg.dev/thematic-vertex-463206-a5/roshani-test/demo-app2:COMMIT_SHA
+          ports:
+            - containerPort: 80
