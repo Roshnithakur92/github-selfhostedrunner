@@ -57,9 +57,17 @@ jobs:
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
+      - name: Install Docker
+        run: |
+          sudo apt update
+          sudo apt install docker.io -y
+          sudo systemctl enable docker --now
+          docker --version
+          sudo usermod -aG docker $USER
+          getent group docker
+          newgrp docker
+          sudo service docker restart 
+          docker ps
 
       - name: Build & Push Docker image
         run: |
