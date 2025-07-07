@@ -63,7 +63,7 @@ jobs:
           sudo apt install docker.io -y
           sudo systemctl enable docker --now
           docker --version
-          sudo usermod -aG docker $USER
+          sudo usermod -aG docker roshani_thakur
           getent group docker
           newgrp docker
           sudo service docker restart 
