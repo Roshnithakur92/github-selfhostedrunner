@@ -1,5 +1,5 @@
 provider "google" {
-  project = "cloudside-academy"
+  project = "<project-ID>"
   region  = var.region
 }
 
